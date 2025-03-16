@@ -1,0 +1,11 @@
+<div class="category-list">
+    <h2>Lista de Categorias</h2>
+    <ul>
+    @for (category of categories; track category.id){
+      <li>
+        <h3>{{ category.name }}</h3>
+        <p>{{ category.description }}</p>
+      </li>
+    }
+    </ul>
+</div>
