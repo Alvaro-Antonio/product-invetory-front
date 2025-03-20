@@ -4,12 +4,15 @@ import { Category } from '../category/models/category.model';
 import { Product } from './product.model';
 import { ProductService } from './product.service';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
+
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
-  imports: [FormsModule]
+  imports: [FormsModule, ]
 })
 export class ProductComponent implements OnInit {
   categories: Category[] = [];
@@ -20,9 +23,11 @@ export class ProductComponent implements OnInit {
     categories: []
   };
 
+
   constructor(
     private categoryService: CategoryService,
-    private productService: ProductService) {}
+    private productService: ProductService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe((data: Category[]) => {
@@ -32,7 +37,9 @@ export class ProductComponent implements OnInit {
 
   onSubmit(): void {
     this.productService.createProduct(this.product).subscribe(response => {
+      
       console.log('Produto cadastrado com sucesso!', response);
+      this.toastr.success('Produto cadastrado com sucesso!');
       // Resetar o formulário após o envio
       this.product = {
         id: 0,

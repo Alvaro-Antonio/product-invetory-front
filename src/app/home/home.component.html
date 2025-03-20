@@ -1,0 +1,39 @@
+<div class="container">
+    <nav class="sidebar">
+      <ul>
+        <li><a routerLink="" routerLinkActive="active">Inicio</a></li>
+        <li><a routerLink="categories" routerLinkActive="active">Categorias</a></li>
+        <li><a routerLink="product-register" routerLinkActive="active" >Produtos</a></li>
+        <li><a routerLink="product-register" routerLinkActive="active" > <i class="bi bi-database-fill-add"></i> Novo Lote</a></li>
+        <button class="menu-button" type="button"><i class="bi bi-bag-plus-fill"></i> Nova Venda</button>
+      </ul>
+    </nav>
+    <main class="content">
+      <header class="topbar">
+        <div class="search-bar">
+          <input type="text" placeholder="Pesquisar..." />
+          <button type="button">Pesquisar</button>
+        </div>
+    
+        <div class="menu">
+          <div class="menu-item">
+            <button type="button" class="menu-button">Cadastrar</button>
+            <ul class="menu-dropdown">
+              <li class="menu-item"><a routerLink="product-register" routerLinkActive="active">Nova Categoria</a></li>
+              <li class="menu-item"><a href="#">Novo Produto</a></li>
+            </ul>
+          </div>
+          
+          <div class="menu-item">
+            <button type="button" class="menu-button">Listar</button>
+            <ul class="menu-dropdown">
+              <li class="menu-item"><a routerLink="categories" routerLinkActive="active">Categorias</a></li>
+              <li class="menu-item"><a href="#">Produtos</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <router-outlet></router-outlet>
+    </main>
+    
+  </div>

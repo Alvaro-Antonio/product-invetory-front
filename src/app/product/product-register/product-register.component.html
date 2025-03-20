@@ -1,1 +1,25 @@
-<p>product-register works!</p>
+<div class="product-form">
+    <h2>Cadastrar Produto</h2>
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="name" [(ngModel)]="product.name" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea id="description" name="description" [(ngModel)]="product.description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="categories">Categorias</label>
+        <select id="categories" name="categories" [(ngModel)]="product.categories" multiple required>
+
+          @for ( category of categories; track $index) {
+            <option [ngValue]="category">{{ category.name }}</option>
+          }
+          
+        </select>
+      </div>
+      <button type="submit" [disabled]="!productForm.form.valid">Cadastrar</button>
+    </form>
+  </div>
+  

@@ -1,0 +1,145 @@
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Impede que o container principal role */
+
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #495057;
+  }
+  
+  .topbar {
+    position: fixed; /* Fixa o topbar no topo da página */
+    top: 0; /* Garante que ele esteja no topo */
+    left: 240px; /* Garante que ele não sobrescreva o sidebar */
+    width: calc(100% - 250px); /* Ajusta a largura para não cobrir o sidebar */
+    z-index: 1000; /* Garante que ele fique acima de outros elementos */
+    display: flex;
+    align-items: end;
+    padding: 0.4em 0.3em; /* Adiciona espaçamento interno */
+    background-color: #343a40;
+    justify-content: space-between;
+}
+
+.content {
+    flex: 1;
+    padding: 80px 20px 20px; /* Adiciona um espaçamento superior para compensar o topbar fixo */
+    background-color: #f8f9fa;
+    overflow-y: auto; /* Permite rolagem vertical apenas no conteúdo */
+    position: relative; /* Garante que o conteúdo seja posicionado corretamente */
+    align-items: end;
+}
+
+.search-bar {
+    display: flex;
+}
+
+.search-bar input {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.sell-button {
+  background-color: #28a745; /* Cor diferente para o botão "Vender" */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.sell-button:hover {
+  background-color: #218838;
+}
+
+/* Menu */
+.menu {
+  display: flex;
+  gap: 20px;
+  align-items: end;
+  right: 0;
+  justify-items: center;
+
+}
+
+/* Cada item do menu */
+.menu-item {
+  position: relative;
+}
+
+/* Botão do menu */
+.menu-button {
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.menu-button:hover {
+  background: #536e8a;;
+}
+
+/* Dropdown oculto por padrão */
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #222;
+  min-width: 150px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Itens dentro do dropdown */
+.menu-dropdown .menu-item {
+  padding: 10px;
+}
+
+.menu-dropdown .menu-item a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 8px 12px;
+}
+
+.menu-dropdown .menu-item a:hover {
+  background: #555;
+}
+
+/* Exibir dropdown ao passar o mouse */
+.menu-item:hover .menu-dropdown {
+  display: block;
+}
