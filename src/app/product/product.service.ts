@@ -7,6 +7,7 @@ import { CreateProductDTO, Product } from './product.model';
   providedIn: 'root'
 })
 export class ProductService {
+  
   private apiUrl = 'http://localhost:3000/product';
 
   constructor(private http: HttpClient) {}
@@ -18,4 +19,13 @@ export class ProductService {
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }
+
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+
+  getProductsByName(name: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/search?name=${name}`);
+  }
+
 }
