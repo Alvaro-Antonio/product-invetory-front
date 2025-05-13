@@ -24,10 +24,10 @@
             <input
               id="productSearch"
               type="text"
-              formControlName="productName"
+              formControlName="product"
               placeholder="Digite o nome do produto"
               (input)="onProductSearch($event, i)"
-              [value]="productItens.at(i).get('productName')?.value"
+              [value]="productItens.at(i).get('product')?.value?.name || ''"            
               required
             />
             <ul class="autocomplete-list" [hidden]="filteredProducts[i].length < 1">
@@ -79,7 +79,7 @@
                 minlength="1"
                 [value]="productItens.at(i).get('sellingPrice')?.value"
                 required
-               (change)="checkFormValidity()"
+               
               />
             </div>
            </div>

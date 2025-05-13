@@ -5,6 +5,7 @@ import { ProductService } from '../product.service';
 import { ProductBatch } from './product-batch.model';
 import { ToastrService } from 'ngx-toastr';
 import { ProductBatchService } from './productbatch.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-batch-register',
@@ -18,6 +19,7 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private productService: ProductService,
     private productBatchService: ProductBatchService,
     private toastr: ToastrService
@@ -30,16 +32,13 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
 
   ngOnInit() { 
     this.productItens.clear(); // Limpa o FormArray    
-    console.log("quant " + this.productBatchForm.controls['productItens'].value.length);
     this.addProductItemToFormArray();
-    this.productItens.controls.map((item) => console.log(item));
-
-  }
-   ngAfterViewInit() {
-    
+    console.log("quant " + this.productBatchForm.controls['productItens'].value.length);    
   }
 
-  // Getter para acessar o FormArray de itens
+  ngAfterViewInit() {
+   
+  }
   get productItens(): FormArray {
     return this.productBatchForm.get('productItens') as FormArray;
   }
@@ -50,7 +49,7 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     this.filteredProducts.push([]);
 
     return this.fb.group({
-      productName: ['', [Validators.required, Validators.min(3)]],
+      product: [null, [Validators.required]],
       amount: [1, [Validators.required, Validators.min(1)]],
       purchasePrice: [1.00, [Validators.required, Validators.min(1)]],
       sellingPrice: [1.00, [Validators.required, Validators.min(1)]]
@@ -72,6 +71,7 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
   onProductSearch(event: Event, index: number) {
     const inputElement = event.target as HTMLInputElement;
     const searchValue = inputElement.value;
+
    if (searchValue.length > 2) {
     this.productService.getProductsByName(searchValue.toString())
     .subscribe((data: Product[]) => {
@@ -85,7 +85,7 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
 
   // Seleciona um produto da lista de autocomplete
   selectProduct(product: Product, index: number): void {
-    this.productItens.at(index).get('productName')?.setValue(product.name);
+    this.productItens.at(index).get('product')?.setValue(product);
     console.log('Produto selecionado:', product.id);
     this.filteredProducts[index] = []; // Limpa a lista de sugestões
   }
@@ -100,8 +100,11 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
       this.productBatchService.createProductBatch(productBatchData)
       .subscribe({
         next: (response) => {
-          console.log('Lote cadastrado com sucesso:', response);
-          this.toastr.success('Produto cadastrado com sucesso!');
+          this.toastr.success('Lote cadastrado com sucesso!');
+            this.productBatchForm.reset();             
+            
+            this.router.navigate(['/product-list']);
+
         },
         error: (error) => {
           console.error('Erro ao cadastrar lote:', error);
@@ -110,29 +113,4 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     }
   }
 
-  checkFormValidity(): void {
-    console.log('Formulário válido:', this.productBatchForm.valid);
-    console.log('Erros no formulário:', this.productBatchForm.errors);
-
-    // Verifica cada controle no FormGroup
-    Object.keys(this.productBatchForm.controls).forEach(key => {
-      const control = this.productBatchForm.get(key);
-      if (control?.invalid) {
-        console.log(`Erro no campo "${key}":`, control.errors);
-      }
-    });
-
-    // Verifica os erros no FormArray (productItens)
-    this.productItens.controls.forEach((group, index) => {
-      if (group.invalid) {
-        console.log(`Erro no item ${index}:`, group.errors);
-        Object.keys((group as FormGroup).controls).forEach(field => {
-          const fieldControl = group.get(field);
-          if (fieldControl?.invalid) {
-            console.log(`Erro no campo "${field}" do item ${index}:`, fieldControl.errors);
-          }
-        });
-      }
-    });
-  }
 }
