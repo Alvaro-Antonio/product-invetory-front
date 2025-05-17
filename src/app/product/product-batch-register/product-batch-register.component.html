@@ -2,11 +2,11 @@
   <h2>Cadastrar Novo Lote</h2>
   <form (ngSubmit)="onSubmit()" [formGroup]="productBatchForm" class="product-batch-form">
     <div class="form-group">
-      <label for="batchNumber">Número do Lote</label>
+      <label for="orderNumber">Número do Lote</label>
       <input
-        id="batchNumber"
+        id="orderNumber"
         type="text"
-        formControlName="batchNumber"
+        formControlName="orderNumber"
         placeholder="Digite o número do lote"
         required
       />

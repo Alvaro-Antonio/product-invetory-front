@@ -25,7 +25,7 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService
   ) {
     this.productBatchForm = this.fb.group({
-      batchNumber: ['', [Validators.required,Validators.minLength(3)]],
+      orderNumber : ['', [Validators.required,Validators.minLength(3)]],
       productItens: this.fb.array([]) // FormArray para os itens do lote
     });
   }
