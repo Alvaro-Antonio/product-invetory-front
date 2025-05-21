@@ -5,6 +5,7 @@ import { CategoryComponent } from '../category/category.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductBatchRegisterComponent } from './product-batch-register/product-batch-register.component';
 import { ProductItemComponent } from './product-item/product-item.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 
 export const productRoutes: Routes = [
@@ -35,5 +36,11 @@ export const productRoutes: Routes = [
     component: ProductListComponent,
     title: 'Listar Produtos',
     runGuardsAndResolvers: 'always',
-  }
+  },
+  {
+    path: '',
+    component: DashboardComponent,
+    title: 'Dashboard',
+    runGuardsAndResolvers: 'always',
+  },
 ];

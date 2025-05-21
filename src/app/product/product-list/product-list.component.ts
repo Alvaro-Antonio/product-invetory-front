@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from '../product.model';
+import { environment } from '../../../enviroments';
 
 @Component({
   selector: 'app-product-list',
@@ -11,6 +12,8 @@ import { Product } from '../product.model';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
+
+  API_IMAGE_URL = environment.imageBaseUrl;
 
   constructor(private productService: ProductService) {}
 

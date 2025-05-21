@@ -12,8 +12,9 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  createProduct(product: CreateProductDTO): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  createProduct(formData: FormData): Observable<Product> {
+    console.log("chegou aqui");
+    return this.http.post<Product>(this.apiUrl, formData);
   }
 
   getProducts(): Observable<Product[]> {

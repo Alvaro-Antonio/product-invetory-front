@@ -4,7 +4,7 @@
             <button class="delete-button">
                 <i class="bi bi-trash-fill"></i>
             </button>
-            <img src="https://imgs.search.brave.com/iU35nhX93FXG70T_ByxAHF-M0dfBceBGDH3La3VEq28/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Zm0ycy5jb20uYnIv/c3RvcmFnZS9ibG9n/L2ltYWdlcy9wcm9k/dXRvLWRlZmluaWNh/by1lLWRlc2Vudm9s/dmltZW50by53ZWJw" alt="{{ product.name }}" class="product-image">
+            <img src="{{ product.image ? (API_IMAGE_URL + '/' + product.image) : 'https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg' }}" alt="{{ product.name }}" class="product-image">
             <div class="product-details">
                 <h2 class="product-name">{{ product.name }}</h2>
                 <p class="product-description">{{ product.description }}</p>
