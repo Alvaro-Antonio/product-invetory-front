@@ -1,1 +1,15 @@
-<p>person-list works!</p>
+<div class="person-list-container">
+    <h2>Lista de Pessoas</h2>
+    @if (people && people.length > 0) {
+    <ul>
+        @for (person of people; track $index) {
+        <li>
+            <strong>{{ person.name }}</strong> - {{ person.email }} - {{ person.phone }}
+        </li>
+        }
+    </ul>
+
+    }@else {
+     <p>Nenhuma pessoa cadastrada.</p>    
+    }
+</div>

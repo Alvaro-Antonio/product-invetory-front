@@ -10,7 +10,19 @@ export interface Person {
     address?: string;
 
     createdAt: Date;
+    
+    updatedAt?: Date | null;
 
-    updatedAt: Date;
+}
+
+export interface PersonCreate {
+    
+    name: string;
+
+    phone: string;
+
+    email?: string;
+
+    address?: string;
 
 }

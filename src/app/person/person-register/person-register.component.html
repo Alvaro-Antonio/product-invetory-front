@@ -1,26 +1,26 @@
 <div class="person-form-container">
   <h2>Cadastrar Pessoa</h2>
-  <form #personForm="ngForm" (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" [formGroup]="personFormGroup" >
     <div class="form-group">
       <label for="name">Nome *</label>
-      <input id="name" name="name" [(ngModel)]="person.name" required />
+      <input id="name" name="name" formControlName="name" required />
     </div>
 
     <div class="form-group">
       <label for="phone">Telefone *</label>
-      <input id="phone" name="phone" [(ngModel)]="person.phone" />
+      <input id="phone" name="phone" formControlName="phone"  required />
     </div>
 
     <div class="form-group">
       <label for="email">E-mail</label>
-      <input id="email" name="email" [(ngModel)]="person.email" type="email" />
+      <input id="email" name="email"  type="email" formControlName="email"/>
     </div>
 
     <div class="form-group">
       <label for="address">Endereço</label>
-      <input id="address" name="address" [(ngModel)]="person.address" />
+      <input id="address" name="address" formControlName="address" />
     </div>
 
-    <button type="submit" [disabled]="personForm.invalid">Salvar</button>
+    <button type="submit" [disabled]="personFormGroup.invalid">Salvar</button>
   </form>
 </div>

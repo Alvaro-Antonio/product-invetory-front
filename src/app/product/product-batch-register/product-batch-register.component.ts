@@ -6,16 +6,18 @@ import { ProductBatch } from './product-batch.model';
 import { ToastrService } from 'ngx-toastr';
 import { ProductBatchService } from './productbatch.service';
 import { Router } from '@angular/router';
+import { NgxCurrencyConfig, NgxCurrencyDirective } from "ngx-currency";
 
 @Component({
   selector: 'app-product-batch-register',
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, NgxCurrencyDirective],
   templateUrl: './product-batch-register.component.html',
   styleUrl: './product-batch-register.component.css'
 })
 export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
   productBatchForm: FormGroup;
   filteredProducts: Product[][] = []; // Array para armazenar os produtos filtrados para cada item
+  inputNames : string [] = []; // Array para armazenar os nomes dos produtos selecionados
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +38,18 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     console.log("quant " + this.productBatchForm.controls['productItens'].value.length);    
   }
 
+  currencyOptions: NgxCurrencyConfig = {
+    prefix: 'R$ ',
+    thousands: '.',
+    decimal: ',',
+    precision: 2,
+    allowNegative: false,
+    align: 'left',
+    allowZero: false,
+    suffix: '',
+    nullable: false
+  };
+
   ngAfterViewInit() {
    
   }
@@ -50,9 +64,9 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
 
     return this.fb.group({
       product: [null, [Validators.required]],
-      amount: [1, [Validators.required, Validators.min(1)]],
-      purchasePrice: [1.00, [Validators.required, Validators.min(1)]],
-      sellingPrice: [1.00, [Validators.required, Validators.min(1)]]
+      amount: [null, [Validators.required, Validators.min(1)]],
+      purchasePrice: [null, [Validators.required, Validators.min(1), Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      sellingPrice: [null, [Validators.required, Validators.min(1)]]
     });
   }
 
@@ -72,6 +86,8 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     const inputElement = event.target as HTMLInputElement;
     const searchValue = inputElement.value;
 
+    this.inputNames[index] = searchValue;
+
    if (searchValue.length > 2) {
     this.productService.getProductsByName(searchValue.toString())
     .subscribe((data: Product[]) => {
@@ -86,7 +102,9 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
   // Seleciona um produto da lista de autocomplete
   selectProduct(product: Product, index: number): void {
     this.productItens.at(index).get('product')?.setValue(product);
-    console.log('Produto selecionado:', product.id);
+  
+    this.inputNames[index] = product.name;
+
     this.filteredProducts[index] = []; // Limpa a lista de sugestões
   }
 

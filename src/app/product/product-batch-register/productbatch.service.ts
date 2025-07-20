@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductBatch } from './product-batch.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
+import { environment } from '../../../enviroments';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class ProductBatchService {
 
-    private apiUrl = 'http://localhost:3000/product-batch';
+    private apiUrl = environment.apiUrl + 'product-batch';
 
     constructor(private http: HttpClient) { }
 

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Person } from "./person.model"; // Certifique-se de que o caminho está correto
+import { Person, PersonCreate } from "./person.model"; // Certifique-se de que o caminho está correto
 import { environment } from "../../enviroments";
 
 
@@ -9,15 +9,14 @@ import { environment } from "../../enviroments";
 @Injectable({
   providedIn: 'root'
 })
-export class PersonService {
-  
+export class PersonService {  
    
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl + "person"; 
 
   constructor(private http: HttpClient) {}
 
-    createPerson(formData: FormData) {
-        return this.http.post(`${this.apiUrl}/person`, formData);
+    createPerson(person: PersonCreate): Observable<Person> {
+        return this.http.post<Person>(`${this.apiUrl}/`, person);
     }
 
 }

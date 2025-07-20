@@ -8,4 +8,11 @@ export interface ProductItem {
   purchasePrice : number;
   sellingPrice : number;
   product : Product;
+  amountItemProduct: AmountItemProduct;
+}
+
+export interface AmountItemProduct {
+    id: number;
+    amountInitial: number;
+    amountFinal: number;
 }

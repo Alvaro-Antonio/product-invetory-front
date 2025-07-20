@@ -1,64 +1,120 @@
 <div class="sell-container">
-    <h2>Nova Venda</h2>
-  
-    <!-- Busca de Produto -->
-    <div class="search-product">
-      <label for="product-search">Buscar Produto:</label>
-      <input
-        type="text"
-        id="product-search"
-        [(ngModel)]="searchQuery"
-        placeholder="Digite o nome do produto"
-        (input)="onSearchProduct()"
-      />
-      <ul *ngIf="filteredProducts.length > 0" class="product-list">
-        <li
-          *ngFor="let product of filteredProducts"
-          (click)="selectProduct(product)"
-        >
-          <img
-            [src]="(API_IMAGE_URL + '/' + product.image)"
-            alt="{{ product.name }}"
-            class="product-thumbnail"
-          />
-          <span>{{ product.name }} - R$ {{ null | number: '1.2-2' }}</span>
+  <h2>Nova Venda</h2>
+
+  <!-- Buscar ou cadastrar cliente -->
+  <div>
+    <div class="search-client">
+      <label for="customer-search">Buscar Cliente:</label>
+      <input type="text" id="customer-search"  [(ngModel)]="customerSearchQuery" placeholder="Digite o nome do cliente"
+        (input)="onSearchCustomer()" />
+      <ul *ngIf="filteredCustomers.length > 0" class="customer-list">
+        <li *ngFor="let customer of filteredCustomers" (click)="selectCustomer(customer)">
+          <span>{{ customer.person.name }}</span>
         </li>
       </ul>
     </div>
-  
-    <!-- Produto Selecionado -->
-    <div *ngIf="selectedProduct" class="selected-product">
-      <h3>Produto Selecionado</h3>
-      <p><strong>Nome:</strong> {{ selectedProduct.name }}</p>
-      <p><strong>Preço de Venda:</strong> R$ {{ null | number: '1.2-2' }}</p>
-      <label for="quantity">Quantidade:</label>
-      <input
-        type="number"
-        id="quantity"
-        [(ngModel)]="quantity"
-        min="1"
-        placeholder="Digite a quantidade"
-      />
-      <button (click)="addProductToSale()">Adicionar à Venda</button>
-    </div>
-  
-    <!-- Lista de Produtos na Venda -->
-    <div class="sale-products" *ngIf="saleProducts.length > 0">
-      <h3>Produtos na Venda</h3>
-      <div *ngFor="let product of saleProducts; let i = index" class="product-item">
-        <div class="product-info">
-          <p><strong>Nome:</strong> {{ product.name }}</p>
-          <p><strong>Quantidade:</strong> {{ product.quantity }}</p>
-          <p><strong>Preço Unitário:</strong> R$ {{ product.sellingPrice | number: '1.2-2' }}</p>
-          <p><strong>Total:</strong> R$ {{ product.quantity * product.sellingPrice | number: '1.2-2' }}</p>
+    <button (click)="openModal()"><i class="bi bi-person-add"></i></button>
+
+
+  </div>
+
+  <!-- Busca de Produto -->
+  <div class="search-product">
+    <label for="product-search">Buscar Produto:</label>
+    <input type="text" id="product-search" [(ngModel)]="searchQuery" placeholder="Digite o nome do produto"
+      (input)="onSearchProduct()" />
+    <ul *ngIf="filteredProducts.length > 0" class="product-list">
+      <li *ngFor="let productItem of filteredProducts" (click)="selectProduct(productItem)">
+        <div>
+          <img [src]="(API_IMAGE_URL + '/' + productItem.product.image)" alt="{{ productItem.product.name }}"
+          class="product-thumbnail" />
         </div>
-        <button (click)="removeProductFromSale(i)">Remover</button>
+        <div>
+          <span>{{ productItem.product.name }} - R$ {{ productItem.sellingPrice | number: '1.2-2' }}</span><br>
+
+          @if(productItem.amountItemProduct.amountFinal > 0){
+          <span>{{ productItem.amountItemProduct.amountFinal}} unidade(s) disponíveis.</span>
+          } @else {
+            <span class="out-of-stock">Produto Indisponível</span>
+          }
+
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Produto Selecionado -->
+  <div *ngIf="selectedProduct" class="selected-product">
+    <h3>Produto Selecionado</h3>
+    <p><strong>Nome:</strong> {{ selectedProduct.product.name }}</p>
+    <p><strong>Preço de Venda:</strong> R$ {{ selectedProduct.sellingPrice| number: '1.2-2' }}</p>
+    <label for="quantity">Quantidade: </label>
+    <input type="number" id="quantity" [(ngModel)]="quantity" min="1" [max]="selectedProduct.amountItemProduct.amountFinal" placeholder="Digite a quantidade" />
+    <button (click)="addProductToSale()">Adicionar à Venda</button>
+  </div>
+
+  <!-- Lista de Produtos na Venda -->
+  <div class="sale-products" *ngIf="saleProducts.length > 0">
+    <h3>Produtos na Venda</h3>
+    <div *ngFor="let itemSale of saleProducts; let i = index" class="product-item">
+      <div class="product-info">
+        <p><strong>Nome:</strong> {{ itemSale.productItem.product.name }}</p>
+        <p><strong>Quantidade:</strong> {{ itemSale.quantity }}</p>
+        <p><strong>Preço Unitário:</strong> R$ {{ itemSale.productItem.sellingPrice | number: '1.2-2' }}</p>
+        <p><strong>Total:</strong> R$ {{ itemSale.quantity * itemSale.productItem.sellingPrice | number: '1.2-2' }}</p>
       </div>
+      <img [src]="(API_IMAGE_URL + '/' + itemSale.productItem.product.image)"
+        alt="{{ itemSale.productItem.product.name }}" class="product-thumbnail-large" />
+      <button (click)="removeProductFromSale(i)">Remover</button>
     </div>
-  
-    <!-- Finalizar Venda -->
-    <div class="finalize-sale" *ngIf="saleProducts.length > 0">
+  </div>
+
+  <!-- Selecionar Método de pagamento -->
+  <div class="payment-method" *ngIf="saleProducts.length > 0">
+    <h3>Método de Pagamento</h3>
+    <select [(ngModel)]="selectedPaymentMethod">
+      <option *ngFor="let method of allPayments" [value]="method" >{{ method | titlecase }}</option>
+    </select>
+   
+
+  <!-- Finalizar Venda -->
+   @if(saleProducts.length > 0 && selectedPaymentMethod !== paymentLocked ){
+    <div class="finalize-sale">
       <h3>Total da Venda: R$ {{ calculateTotal() | number: '1.2-2' }}</h3>
       <button (click)="finalizeSale()">Finalizar Venda</button>
     </div>
-  </div>
+   }
+  
+
+
+  <app-modal [(isVisible)]="mostrarModal">
+    <div class="person-form-container">
+      <h2>Cadastrar Cliente</h2>
+      <form (ngSubmit)="onSubmitCustomer()" [formGroup]="customerFormGroup">
+        <div class="form-group">
+          <label for="name">Nome *</label>
+          <input id="name" name="name" formControlName="name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Telefone *</label>
+          <input id="phone" name="phone" formControlName="phone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" formControlName="email" />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Endereço</label>
+          <input id="address" name="address" formControlName="address" />
+        </div>
+
+        <button type="submit" [disabled]="customerFormGroup.invalid">Salvar</button>
+      </form>
+    </div>
+
+  </app-modal>
+
+</div>
