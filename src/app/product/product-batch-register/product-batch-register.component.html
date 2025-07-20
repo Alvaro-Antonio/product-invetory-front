@@ -26,6 +26,7 @@
               type="text"
               formControlName="product"
               placeholder="Digite o nome do produto"
+              [value]="inputNames[i]"
               (input)="onProductSearch($event, i)"          
               required
             />
@@ -58,7 +59,9 @@
               <label for="purchasePrice">Preço de Compra</label>
               <input
                 id="purchasePrice"
-                type="number"
+                type="text"
+                currencyMask
+                [options]="currencyOptions"
                 formControlName="purchasePrice"
                 minlength="1"
                 placeholder="Digite o preço de compra"
@@ -70,7 +73,9 @@
               <label for="sellingPrice">Preço de Venda</label>
               <input
                 id="sellingPrice"
-                type="number"
+                type="text"
+                currencyMask
+                [options]="currencyOptions"
                 formControlName="sellingPrice"
                 placeholder="Digite o preço de venda"
                 minlength="1"
