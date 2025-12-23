@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+.button-submit {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.button-submit:not(:disabled):hover {
+    background-color: #45a049;
+}
+
+.button-submit:active {
+    background-color: #3e8e41;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+label {
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}

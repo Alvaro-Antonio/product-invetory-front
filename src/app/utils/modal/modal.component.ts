@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-modal',
-  imports: [],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.css'
+  styleUrl: './modal.component.css',
 })
 export class ModalComponent {
   
-  @Input() isVisible = false;
+  @Input() isVisible: boolean = false;
   @Output() isVisibleChange = new EventEmitter<boolean>();
 
   close():void {
@@ -17,6 +19,7 @@ export class ModalComponent {
   }
 
   onOverlayClick(event: MouseEvent) {
+    console.log('Clique na sobreposição do modal detectado');
     if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
       this.close();
     }

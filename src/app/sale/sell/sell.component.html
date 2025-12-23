@@ -5,18 +5,35 @@
   <div>
     <div class="search-client">
       <label for="customer-search">Buscar Cliente:</label>
-      <input type="text" id="customer-search"  [(ngModel)]="customerSearchQuery" placeholder="Digite o nome do cliente"
-        (input)="onSearchCustomer()" />
+
+      <!-- Exibe o input de busca apenas se nenhum cliente estiver selecionado -->
+      <input
+        *ngIf="!selectedCustomer"
+        type="text"
+        id="customer-search"
+        [(ngModel)]="customerSearchQuery"
+        placeholder="Digite o nome do cliente"
+        (input)="onSearchCustomer()"
+      />
+
+      <!-- Exibe a lista de clientes filtrados -->
       <ul *ngIf="filteredCustomers.length > 0" class="customer-list">
         <li *ngFor="let customer of filteredCustomers" (click)="selectCustomer(customer)">
           <span>{{ customer.person.name }}</span>
         </li>
       </ul>
+
+      <div *ngIf="selectedCustomer" (click)="removeSelectedCustomer()" class="tag">
+        <span class="tag-text">{{ selectedCustomer.person.name }}</span>
+        <span class="tag-close">X</span>
+      </div>
     </div>
-    <button (click)="openModal()"><i class="bi bi-person-add"></i></button>
 
-
+    <button (click)="openModal()"><i class="bi bi-person-add"></i> Cadastrar Cliente</button>
   </div>
+</div>
+
+  <!-- Resto do código permanece igual -->
 
   <!-- Busca de Produto -->
   <div class="search-product">
@@ -65,7 +82,7 @@
       </div>
       <img [src]="(API_IMAGE_URL + '/' + itemSale.productItem.product.image)"
         alt="{{ itemSale.productItem.product.name }}" class="product-thumbnail-large" />
-      <button (click)="removeProductFromSale(i)">Remover</button>
+      <button class="button-submit" (click)="removeProductFromSale(i)">Remover</button>
     </div>
   </div>
 
@@ -81,13 +98,12 @@
    @if(saleProducts.length > 0 && selectedPaymentMethod !== paymentLocked ){
     <div class="finalize-sale">
       <h3>Total da Venda: R$ {{ calculateTotal() | number: '1.2-2' }}</h3>
-      <button (click)="finalizeSale()">Finalizar Venda</button>
+      <button class="button-submit" (click)="finalizeSale()">Finalizar Venda</button>
     </div>
    }
-  
+</div>
 
-
-  <app-modal [(isVisible)]="mostrarModal">
+<app-modal [(isVisible)]="mostrarModal">
     <div class="person-form-container">
       <h2>Cadastrar Cliente</h2>
       <form (ngSubmit)="onSubmitCustomer()" [formGroup]="customerFormGroup">
@@ -116,5 +132,3 @@
     </div>
 
   </app-modal>
-
-</div>

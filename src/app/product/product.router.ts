@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import path from 'path';
 import { ProductRegisterComponent } from './product-register/product-register.component';
 import { CategoryComponent } from '../category/category.component';
 import { ProductListComponent } from './product-list/product-list.component';
@@ -7,6 +6,7 @@ import { ProductBatchRegisterComponent } from './product-batch-register/product-
 import { ProductItemComponent } from './product-item/product-item.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { SellComponent } from '../sale/sell/sell.component';
+import { CategoryRegisterComponent } from '../category/category-register/category-register.component';
 
 
 export const productRoutes: Routes = [
@@ -14,6 +14,13 @@ export const productRoutes: Routes = [
     path: 'product-register', 
     component: ProductRegisterComponent,
     title: 'Cadastro de Produtos',
+    runGuardsAndResolvers: 'always',
+    
+  },
+  {
+    path: 'category-register', 
+    component: CategoryRegisterComponent,
+    title: 'Cadastro de Categorias',
     runGuardsAndResolvers: 'always',
     
   },

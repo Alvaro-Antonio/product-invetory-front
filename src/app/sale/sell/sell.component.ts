@@ -19,9 +19,9 @@ import { SaleService } from '../sale.service';
   selector: 'app-sell',
   templateUrl: './sell.component.html',
   styleUrls: ['./sell.component.css'],
-  imports: [FormsModule, CommonModule, ModalComponent, ReactiveFormsModule,],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, ModalComponent],
 })
-export class SellComponent {
+export class SellComponent{
 
   mostrarModal = false;
   // Busca de produtos
@@ -33,8 +33,8 @@ export class SellComponent {
 
   //Register of custumer
   customerSearchQuery: string = '';
-  filteredCustomers: Customer[] = []; // Substitua 'any' pelo tipo correto de cliente
-  selectedCustomer: Customer | null = null; // Substitua 'any' pelo tipo correto
+  filteredCustomers: Customer[] = []; 
+  selectedCustomer: Customer | null = null; 
 
   selectedPaymentMethod: PaymentMethod = PaymentMethod.PENDING; // Inicializa com o método de pagamento padrão
   paymentMethods : PaymentMethod = PaymentMethod.CASH; 
@@ -66,8 +66,8 @@ export class SellComponent {
     this.sellFormGroup = this.fbSell.group({
       quantity: [1, [Validators.required, Validators.min(1)]],
       paymentMethod: [this.selectedPaymentMethod, Validators.required],
-      itemProduct: [null, Validators.required], // Inicializa o produto como nulo
-      customer: [null, Validators.required], // Inicializa o cliente como nulo
+      itemProduct: [null, Validators.required], 
+      customer: [null, Validators.required], 
     });
   }
 
@@ -164,6 +164,7 @@ export class SellComponent {
       next: (response) => {
         console.log('Venda criada com sucesso!', response);
         this.toastr.success('Venda finalizada com sucesso!', 'Sucesso');
+        this.removeSelectedCustomer();
         this.router.navigate(['/sell']);
       },
       error: (error) => {
@@ -201,13 +202,20 @@ export class SellComponent {
   selectCustomer(customer: Customer): void {
     this.selectedCustomer = customer;
     this.filteredCustomers = [];
-    this.customerSearchQuery = customer.person.name; // Atualiza o campo de input com o nome do cliente selecionado
+    this.customerSearchQuery = '' // Atualiza o campo de input com o nome do cliente selecionado
   }
 
+removeSelectedCustomer(): void {
+  this.selectedCustomer = null;
+}
 
-  openModal() {
-    console.log('Abrindo modal');
+   openModal(): void {
     this.mostrarModal = true;
+    console.log('Abrindo modal de cadastro de cliente');
+  }
+
+  closeModal(): void {
+    this.mostrarModal = false;
   }
 
    onSubmitCustomer() {

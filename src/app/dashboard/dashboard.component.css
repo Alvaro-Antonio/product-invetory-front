@@ -1,13 +1,11 @@
 .content   {
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   height: 100vh;
-  display: flex;
   gap: 20px;
-  justify-content: flex-start;
-  
+  flex-wrap: wrap;
 }
 h1        {
   font-size: 2.5rem;
