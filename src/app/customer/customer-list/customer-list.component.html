@@ -1,0 +1,35 @@
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Email</th>
+        <th>Vip</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      @for (customer of customers; track customer.id) {
+      <tr>
+        <td>{{ customer.person.name }}</td>
+        <td>{{ customer.person.phone }}</td>
+        <td>{{ customer.person.email }}</td>
+        @if(customer.vip) {
+        <td><i class="bi bi-check-circle-fill"></i></td>
+        }@else {
+        <td><i class="bi bi-x-circle-fill"></i></td>
+        }
+      </tr>
+      }
+
+
+    </tbody>
+  </table>
+
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Próxima</button>
+  </div>
+</div>
