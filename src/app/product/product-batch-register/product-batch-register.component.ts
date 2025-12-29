@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Product } from '../product.model';
 import { ProductService } from '../product.service';
 import { ProductBatch } from './product-batch.model';
@@ -27,9 +27,9 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     private toastr: ToastrService
   ) {
     this.productBatchForm = this.fb.group({
-      orderNumber : ['', [Validators.required,Validators.minLength(3)]],
-      productItens: this.fb.array([]) // FormArray para os itens do lote
-    });
+      orderNumber: ['', [Validators.required, Validators.minLength(3)]],
+      productItens: this.fb.array([]),
+    }, { validators: purchasePriceValidator() }); 
   }
 
   ngOnInit() { 
@@ -131,4 +131,21 @@ export class ProductBatchRegisterComponent implements OnInit, AfterViewInit {
     }
   }
 
+}
+
+// Custom validator to ensure purchasePrice is not less than sellingPrice
+export function purchasePriceValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const purchasePrice = control.get('purchasePrice')?.value;
+    const sellingPrice = control.get('sellingPrice')?.value;
+
+    if (purchasePrice !== null && sellingPrice !== null && purchasePrice < sellingPrice) {
+      const toastr = control.get('purchasePrice')?.root.get('toastrService')?.value;
+      if (toastr) {
+        toastr.error('O preço de compra não pode ser menor que o preço de venda.');
+      }
+      return { purchasePriceLessThanSellingPrice: true };
+    }
+    return null;
+  };
 }

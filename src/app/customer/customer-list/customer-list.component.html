@@ -2,6 +2,7 @@
   <table>
     <thead>
       <tr>
+        <th></th>
         <th>Nome</th>
         <th>Telefone</th>
         <th>Email</th>
@@ -12,6 +13,7 @@
 
       @for (customer of customers; track customer.id) {
       <tr>
+        <td>{{ customer.id }}</td>
         <td>{{ customer.person.name }}</td>
         <td>{{ customer.person.phone }}</td>
         <td>{{ customer.person.email }}</td>
